@@ -3,6 +3,7 @@ const result = document.querySelector('#result');
 const opBtns = document.querySelectorAll('.opBtn');
 const equalBtn = document.querySelector('.equalBtn');
 const clearBtn = document.querySelector('.clearBtn');
+const delBtn = document.querySelector('.delBtn');
 
 let firstNum = '';
 let firstDone = false;
@@ -25,6 +26,23 @@ const operation = () => {
       return;
   }
 };
+
+delBtn.addEventListener('click', (e) => {
+  let nums = result.value.slice(0, -1);
+  console.log(nums);
+  if (nums.length < 1) {
+    result.value = '0';
+  } else {
+    result.value = nums;
+  }
+  if (firstDone === false) {
+    firstNum = nums;
+  } else if (firstDone === true && secondDone === true) {
+    secondNum = nums;
+  } else if (firstDone === true && secondDone === false) {
+    firstNum = nums;
+  }
+});
 
 clearBtn.addEventListener('click', (e) => {
   firstNum = '';
@@ -66,6 +84,7 @@ opBtns.forEach((opBtn) => {
       secondNum = '';
     }
     operator = opBtn.value;
+    thirdNum = '';
   });
 });
 
