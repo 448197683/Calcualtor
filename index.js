@@ -4,6 +4,7 @@ const opBtns = document.querySelectorAll('.opBtn');
 const equalBtn = document.querySelector('.equalBtn');
 const clearBtn = document.querySelector('.clearBtn');
 const delBtn = document.querySelector('.delBtn');
+const floatBtn = document.querySelector('.floatBtn');
 
 let firstNum = '';
 let firstDone = false;
@@ -11,6 +12,7 @@ let secondNum = '';
 let operator = '';
 let secondDone = false;
 let thirdNum = '';
+let float = false;
 
 const operation = () => {
   switch (operator) {
@@ -27,8 +29,35 @@ const operation = () => {
   }
 };
 
+floatBtn.addEventListener('click', (e) => {
+  let nums = result.value;
+  if (nums.includes('.')) {
+    return;
+  }
+  if (float === false) {
+    nums = nums + '.';
+    if (firstDone === false) {
+      firstNum = nums;
+      result.value = firstNum;
+    } else if (firstDone === true && secondDone === true) {
+      secondNum = nums;
+      result.value = secondNum;
+    } else if (firstDone === true && secondDone === false) {
+      firstDone = false;
+      firstNum = nums;
+      result.value = firstNum;
+    }
+  }
+  float = true;
+});
+
 delBtn.addEventListener('click', (e) => {
   let nums = result.value.slice(0, -1);
+  if (nums.includes('.')) {
+    float = true;
+  } else {
+    float = false;
+  }
   console.log(nums);
   if (nums.length < 1) {
     result.value = '0';
@@ -52,6 +81,7 @@ clearBtn.addEventListener('click', (e) => {
   operator = '';
   result.value = '0';
   thirdNum = '';
+  float = false;
 });
 
 equalBtn.addEventListener('click', () => {
@@ -71,6 +101,7 @@ equalBtn.addEventListener('click', () => {
     firstDone = true;
     thirdNum = secondNum;
     secondNum = '';
+    float = false;
   }
 });
 
@@ -85,6 +116,7 @@ opBtns.forEach((opBtn) => {
     }
     operator = opBtn.value;
     thirdNum = '';
+    float = false;
   });
 });
 
